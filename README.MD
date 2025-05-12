@@ -15,7 +15,7 @@ Este é um gerador de contrato de confidencialidade (NDA) com interface gráfica
 
 ## 🖼️ Interface
 
-<img src="screenshot.png" width="600" alt="Exemplo da Interface Gráfica">
+<img src="App de gerar NDA.png.png" width="600" alt="Exemplo da Interface Gráfica">
 
 ---
 
