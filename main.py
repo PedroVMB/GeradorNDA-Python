@@ -3,6 +3,8 @@ from tkinter import ttk, messagebox
 from docx import Document
 from docx2pdf import convert
 from datetime import datetime
+from reportlab.lib.pagesizes import A4
+from reportlab.pdfgen import canvas
 
 def gerar_documento():
     empresa_nome = entry_empresa_nome.get()
@@ -79,9 +81,45 @@ d) Tomar todas as precauções razoáveis para proteger as Informações Confide
     doc.add_paragraph('\n___________________________\nFREELANCER\n(nome e assinatura)')
 
     docx_file = "Acordo_Confidencialidade_Gerado.docx"
+
+
+    # Salvar o .docx
+    docx_file = "Acordo_Confidencialidade_Gerado.docx"
     doc.save(docx_file)
-    #convert(docx_file)
+
+    # Criar PDF simples com ReportLab
+    pdf_file = "Acordo_Confidencialidade_Gerado.pdf"
+    c = canvas.Canvas(pdf_file, pagesize=A4)
+    width, height = A4
+
+    # Quebrar texto por linhas simples (modo básico, sem formatação complexa)
+    texto = [
+        f"ACORDO DE CONFIDENCIALIDADE (NDA)\n",
+        f"1. CONTRATANTE:\n{empresa_nome} ({empresa_razao}), {empresa_endereco}, CNPJ: {empresa_cnpj}\n",
+        f"2. FREELANCER:\n{freelancer_nome}, {freelancer_nacionalidade}, {freelancer_estado_civil}, {freelancer_profissao}, CPF: {freelancer_cpf}, RG: {freelancer_rg}, Endereço: {freelancer_endereco}\n",
+        f"OBJETO:\nO presente Acordo tem por objeto a proteção das informações confidenciais relacionadas aos sistemas Shop9, Cdnet e Safari.\n",
+        f"INFORMAÇÕES CONFIDENCIAIS:\nDados de clientes, fornecedores, estratégias de negócio e acesso a sistemas.\n",
+        f"OBRIGAÇÕES DO FREELANCER:\nManter sigilo, usar informações apenas para as atividades acordadas e proteger contra acesso não autorizado.\n",
+        f"VIGÊNCIA:\nEste acordo é válido por tempo indeterminado.\n",
+        f"PENALIDADES:\nO descumprimento acarretará sanções civis e criminais.\n",
+        f"DISPOSIÇÕES GERAIS:\nForo: {cidade_forum}\n",
+        f"\n{cidade_forum}, {data_hoje}\n\n___________________________\n{empresa_nome}\n\n___________________________\nFREELANCER"
+    ]
+
+    # Adicionar ao PDF
+    y = height - 40
+    for linha in texto:
+        for sub in linha.split("\n"):
+            c.drawString(40, y, sub)
+            y -= 18
+            if y < 50:
+                c.showPage()
+                y = height - 40
+
+    c.save()
+
     messagebox.showinfo("Sucesso", "Documento Word e PDF gerados com sucesso!")
+
 
 # GUI com Estilo
 root = tk.Tk()
