@@ -123,7 +123,7 @@ d) Tomar todas as precauções razoáveis para proteger as Informações Confide
 
 # GUI com Estilo
 root = tk.Tk()
-root.title("Gerador de NDA - Rommanel")
+root.title("Gerador de NDA")
 root.geometry("600x750")
 root.resizable(False, False)
 
